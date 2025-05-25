@@ -1,15 +1,36 @@
 import { Student } from '../models/student.models.js';
 
-export async function getStudents({ page, perPage, sortBy, sortOrder }) {
+export async function getStudents({
+  page,
+  perPage,
+  sortBy,
+  sortOrder,
+  filter,
+}) {
   const skip = page > 0 ? (page - 1) * perPage : 0;
+
+  const studentQuery = Student.find();
+
+  if (typeof filter.minYear !== 'undefined') {
+    studentQuery.where('year').gte(filter.minYear);
+  }
+
+  if (typeof filter.maxYear !== 'undefined') {
+    studentQuery.where('year').lte(filter.maxYear);
+  }
+
+  if (typeof filter.gender !== 'undefined') {
+    studentQuery.where('gender').equals(filter.gender);
+  }
+
   const [total, students] = await Promise.all([
-    Student.countDocuments(),
-    Student.find()
+    Student.countDocuments(studentQuery),
+    studentQuery
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(perPage),
   ]);
-  // ????
+
   console.log({ total, students });
   const totalPages = Math.ceil(total / perPage);
   return {

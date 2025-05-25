@@ -11,16 +11,24 @@ import {
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parcePaginationParams.js';
 import { parceSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 async function getStudentsController(req, res) {
   const { page, perPage } = parsePaginationParams(req.query);
 
   const { sortBy, sortOrder } = parceSortParams(req.query);
+  const filter = parseFilterParams(req.query);
 
   console.log({ sortBy, sortOrder });
   console.log({ page, perPage });
 
-  const students = await getStudents({ page, perPage, sortBy, sortOrder });
+  const students = await getStudents({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
   res.json({
     data: students,
   });
