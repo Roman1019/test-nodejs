@@ -27,7 +27,7 @@ export async function loginUser(email, password) {
     throw new createHttpError.Unauthorized('Email or password is incorect');
   }
   return Session.create({
-    user: user._id,
+    userId: user._id,
     accessToken: 'ACCESS_TOKEN',
     refreshToken: 'REFRESH_TOKEN',
     accessTokenValidUntil: new Date(Date.now() + 10 * 60 * 1000),
