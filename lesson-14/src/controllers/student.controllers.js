@@ -54,6 +54,8 @@ async function getStudentByIdController(req, res) {
   }
 
   res.json({
+    status: 200,
+    message: 'Successfully get student',
     data: student,
   });
 }

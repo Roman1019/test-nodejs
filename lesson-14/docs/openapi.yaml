@@ -1,0 +1,24 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Students app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is a documentation of students app
+tags:
+  - name: Students
+    description: Operations with students.
+
+servers:
+  - url: http://localhost:8090
+  - url: https://example.com/api/v1
+paths:
+  /students/{id}:
+    get:
+      $ref: '../swagger/path/students/{id}/get.yaml'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
